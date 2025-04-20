@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Responsive Church Site with Dropdown, Slideshow, Gallery & Footer</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      padding-top: 80px;
+    }
+
+
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 40px;
+      background-color: blue;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1100;
+    }
+
+    .navbar p {
+      color: white;
+      font-size: 1rem;
+      font-weight: bold;
+    }
+
+    .navbar2 {
+      position: fixed;
+      top: 40px;
+      width: 100%;
+      background: white;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+      display: flex;
+      align-items: center;
+      padding: 10px 30px;
+      z-index: 1050;
+      justify-content: space-between;
+    }
+
+    .logo{
+      cursor: pointer;
+      display: flex;
+      border: 2px solid green;
+      border-radius: 25px;
+      width: 220px;
+    }
+
+    .logo img {
+      height: 50px;
+      cursor: pointer;
+    }
+
+    .logo .logo2{
+      margin-top: 12px;
+     
+      color: green;
+      cursor: pointer;
+    }
+    .menu {
+      display: flex;
+      list-style: none;
+      gap: 30px;
+      align-items: center;
+      margin-top: 4px;
+    }
+
+    .menu li {
+      position: relative;
+    }
+
+    .menu li a {
+      text-decoration: none;
+      font-size: 1.2rem;
+      color: black;
+      padding: 10px;
+      display: block;
+      transition: color 0.3s;
+    }
+
+    .menu li a:hover {
+      color: blue;
+    }
+
+    .dropdown {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: white;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+      min-width: 180px;
+      border-radius: 5px;
+      overflow: hidden;
+      z-index: 1000;
+    }
+
+    .dropdown li {
+      width: 100%;
+    }
+
+    .dropdown li a {
+      font-size: 1rem;
+      color: black;
+      padding: 10px 15px;
+      display: block;
+    }
+
+    .dropdown li a:hover {
+      background-color: lightgray;
+    }
+
+    
+    .menu li:hover .dropdown {
+      display: block;
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+    }
+
+    .hamburger div {
+      width: 30px;
+      height: 3.5px;
+      background-color: black;
+      margin: 3.3px;
+      border-radius: 10px;
+    }
+
+    .auth-buttons {
+      display: flex;
+      gap: 15px;
+    }
+
+    .auth-buttons a {
+      text-decoration: none;
+      font-size: 1rem;
+      color: white;
+      background-color: blue;
+      padding: 8px 15px;
+      border-radius: 5px;
+      transition: background 0.3s;
+    }
+
+    .auth-buttons a:hover {
+      background-color: darkblue;
+    }
+
+    @media (max-width: 768px) {
+      .menu {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        background: white;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        padding: 10px 0;
+      }
+
+      .menu.active {
+        display: flex;
+      }
+
+      .menu li {
+        text-align: center;
+        width: 100%;
+      }
+
+      .dropdown {
+        position: relative;
+        box-shadow: none;
+        width: 100%;
+        background: none;
+      }
+
+      .dropdown li a {
+        padding-left: 30px;
+      }
+
+      .hamburger {
+        display: flex;
+      }
+
+      .auth-buttons {
+        flex-direction: column;
+        align-items: center;
+        margin-top: 10px;
+      }
+    }
+
+
+    #home {
+      position: relative;
+      height: 100vh;
+      width: 100%;
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+      text-align: center;
+    }
+
+    #home::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1;
+    }
+
+    #home .content {
+      position: relative;
+      z-index: 2;
+    }
+
+    #home h1 {
+      font-size: 3rem;
+      margin-bottom: 20px;
+    }
+
+    #home p {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+    }
+
+    #home .btn {
+      text-decoration: none;
+      background-color: blue;
+      color: #fff;
+      padding: 12px 25px;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+      margin: 5px;
+    }
+
+    #home .btn:hover {
+      background-color: darkblue;
+    }
+
+    section {
+      padding: 60px 20px;
+      min-height: 100vh;
+    }
+    #about { background-color: #e6e6e6; }
+    #population { background-color: #d9d9d9; }
+    #routine { background-color: #cccccc; }
+    #information { background-color: #bfbfbf; }
+
+    #gallery {
+      background-color: #f2f2f2;
+    }
+
+    #gallery h1 {
+      text-align: center;
+      margin-bottom: 40px;
+      font-size: 2.5rem;
+    }
+
+    .gallery-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      padding: 0 20px;
+    }
+
+    .gallery-container img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 8px;
+      transition: transform 0.3s;
+    }
+
+    .gallery-container img:hover {
+      transform: scale(1.05);
+    }
+
+    footer {
+      background-color: #333;
+      color: #fff;
+      padding: 40px 20px;
+    }
+
+    .footer-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .footer-column {
+      flex: 1;
+      min-width: 250px;
+      margin: 20px 0;
+    }
+
+    .footer-column h3 {
+      margin-bottom: 20px;
+      font-size: 1.2rem;
+      border-bottom: 1px solid #555;
+      padding-bottom: 10px;
+    }
+
+    .footer-column ul {
+      list-style: none;
+    }
+
+    .footer-column ul li {
+      margin-bottom: 10px;
+    }
+
+    .footer-column ul li a {
+      color: #ccc;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .footer-column ul li a:hover {
+      color: #fff;
+    }
+
+    .footer-bottom {
+      text-align: center;
+      border-top: 1px solid #555;
+      padding-top: 20px;
+      margin-top: 20px;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 768px) {
+      .footer-container {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .footer-column {
+        margin: 20px 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <p>FGT CHURCH BASKOTI BARDAGORIYA 6, KAILALI</p>
+  </nav>
+  <nav class="navbar2">
+    <div class="logo">
+      <img src="R.png" alt="Logo" />
+      <h1 class="logo2">FGT Baskoti</h1>
+    </div>
+    <div class="hamburger" onclick="toggleMenu()">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+    <ul class="menu">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#about">About us</a></li>
+      <li>
+        <a href="#population">Population</a>
+        <ul class="dropdown">
+          <li><a href="#population">Category 1</a></li>
+          <li><a href="#population">Category 2</a></li>
+          <li><a href="#population">Category 3</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href="#routine">Routine</a>
+        <ul class="dropdown">
+          <li><a href="#routine">Routine 1</a></li>
+          <li><a href="#routine">Routine 2</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href="#information">Information</a>
+        <ul class="dropdown">
+          <li><a href="#information">Info 1</a></li>
+          <li><a href="#information">Info 2</a></li>
+        </ul>
+      </li>
+      <li><a href="#gallery">Gallery</a></li>
+      <li>
+        <div class="auth-buttons">
+          <a href="login.html">Sign In</a>
+          <a href="signup.html">Sign Up</a>
+        </div>
+      </li>
+    </ul>
+  </nav>
+
+  <section id="home">
+    <div class="content">
+      <h1>Welcome to FGT Church</h1>
+      <p>Experience our community and values.</p>
+      <a href="#about" class="btn">Learn More</a>
+      <button class="btn" onclick="prevPhoto()">Previous Photo</button>
+    </div>
+  </section>
+
+  <section id="about">
+    <h1>About Us</h1>
+    <p>Learn more about our church, history, and mission.</p>
+  </section>
+
+  <section id="population">
+    <h1>Population</h1>
+    <p>Discover the various categories of our congregation and community outreach programs.</p>
+  </section>
+
+  <section id="routine">
+    <h1>Routine</h1>
+    <p>Explore our daily, weekly, and special event routines.</p>
+  </section>
+
+  <section id="information">
+    <h1>Information</h1>
+    <p>Find more details and additional resources related to our church.</p>
+  </section>
+
+  <section id="gallery">
+    <h1>Gallery</h1>
+    <div class="gallery-container">
+      <img src="cont.jpg" alt="Gallery Image 1" />
+      <img src="cont.jpg" alt="Gallery Image 2" />
+      <img src="cont.jpg" alt="Gallery Image 3" />
+      <img src="cont.jpg" alt="Gallery Image 4" />
+      <img src="cont.jpg" alt="Gallery Image 5" />
+      <img src="cont.jpg" alt="Gallery Image 6" />
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-container">
+      <div class="footer-column">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#about">About Us</a></li>
+          <li><a href="#population">Population</a></li>
+          <li><a href="#routine">Routine</a></li>
+          <li><a href="#information">Information</a></li>
+          <li><a href="#gallery">Gallery</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h3>Contact Us</h3>
+        <ul>
+          <li>Email: info@fgtchurch.com</li>
+          <li>Phone: +977-123456789</li>
+          <li>Address: BASKOTI BARDAGORIYA 6, KAILALI</li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h3>Follow Us</h3>
+        <ul>
+          <li><a href="#">Facebook</a></li>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">Twitter</a></li>
+          <li><a href="#">YouTube</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 FGT Church. All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    const images = [
+      "cont.jpg",  
+      "cont2.jpg",  
+      "cont3.jpg"  
+    ];
+
+    let currentIndex = 0;
+    
+    const homeSection = document.getElementById("home");
+
+    homeSection.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('${images[currentIndex]}')`;
+
+    function prevPhoto() {
+      currentIndex = (currentIndex - 1 + images.length) % images.length;
+      homeSection.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('${images[currentIndex]}')`;
+    }
+
+    function toggleMenu() {
+      document.querySelector(".menu").classList.toggle("active");
+    }
+
+
+
+
+    fetch("http://localhost:3000/api/login", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ email: "user@example.com", password: "yourpassword" }),
+})
+  .then((res) => res.json())
+  .then((data) => {
+    if (data.token) {
+      localStorage.setItem("token", data.token);
+      window.location.href = "index.html";
+    } else {
+      alert(data.message);
+    }
+  })
+  .catch((err) => console.error(err));
+  </script>
+</body>
+</html>
